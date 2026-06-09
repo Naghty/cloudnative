@@ -84,7 +84,6 @@ public class GuiaController {
                 GuiaDespacho mockGuia = new GuiaDespacho();
                 mockGuia.setNumero("1001");
                 mockGuia.setTransportista(transportista);
-                mockGuia.setRutaArchivo("/mnt/efs/temporal/guia-despacho-prueba.txt");
                 mockList.add(mockGuia);
                 return ResponseEntity.ok(mockList);
             }
@@ -94,7 +93,6 @@ public class GuiaController {
             GuiaDespacho mockGuia = new GuiaDespacho();
             mockGuia.setNumero("1001");
             mockGuia.setTransportista(transportista);
-            mockGuia.setRutaArchivo("/mnt/efs/temporal/guia-despacho-prueba.txt");
             mockList.add(mockGuia);
             return ResponseEntity.ok(mockList);
         }
