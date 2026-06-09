@@ -73,28 +73,18 @@ public class GuiaController {
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity<List<GuiaDespacho>> buscarGuias(
+    public ResponseEntity<?> buscarGuias(
             @RequestParam("transportista") String transportista,
             @RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
         
         try {
             List<GuiaDespacho> resultados = guiaService.buscarPorFiltros(transportista, fecha);
             if (resultados == null || resultados.isEmpty()) {
-                List<GuiaDespacho> mockList = new ArrayList<>();
-                GuiaDespacho mockGuia = new GuiaDespacho();
-                mockGuia.setNumero("1001");
-                mockGuia.setTransportista(transportista);
-                mockList.add(mockGuia);
-                return ResponseEntity.ok(mockList);
+                return ResponseEntity.ok(guiaService.buscarPorFiltros(transportista, fecha));
             }
             return ResponseEntity.ok(resultados);
         } catch (Exception e) {
-            List<GuiaDespacho> mockList = new ArrayList<>();
-            GuiaDespacho mockGuia = new GuiaDespacho();
-            mockGuia.setNumero("1001");
-            mockGuia.setTransportista(transportista);
-            mockList.add(mockGuia);
-            return ResponseEntity.ok(mockList);
+            return ResponseEntity.ok(new ArrayList<>());
         }
     }
 }
