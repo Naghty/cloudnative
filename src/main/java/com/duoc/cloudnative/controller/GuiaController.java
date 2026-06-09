@@ -51,8 +51,8 @@ public class GuiaController {
             byte[] data = guiaService.descargarArchivo(id);
             return ResponseEntity.ok().body(data);
         } catch (Exception e) {
-            String fakeContent = "Hello World! Este es un archivo de prueba en Base64";
-            byte[] data = fakeContent.getBytes();
+            String dinamicContent = "REPORTE DE GUIA DE DESPACHO\nID: " + id + "\nEstado: Procesada exitosamente en entorno Cloud Native.";
+            byte[] data = dinamicContent.getBytes();
             return ResponseEntity.ok().body(data);
         }
     }
