@@ -1,7 +1,9 @@
 package com.duoc.cloudnative.controller;
 
+import com.duoc.cloudnative.dto.GuiaRequest;
 import com.duoc.cloudnative.model.GuiaDespacho;
 import com.duoc.cloudnative.service.GuiaService;
+import com.duoc.cloudnative.util.CustomMultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -21,12 +24,11 @@ public class GuiaController {
     private GuiaService guiaService;
 
     @PostMapping
-    public ResponseEntity<GuiaDespacho> crearGuia(
-            @RequestParam("numero") String numero,
-            @RequestParam("transportista") String transportista,
-            @RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<GuiaDespacho> crearGuia(@RequestBody GuiaRequest request) throws IOException {
+        byte[] decodedBytes = Base64.getDecoder().decode(request.getFileBase64());
+        MultipartFile file = new CustomMultipartFile(decodedBytes, request.getFileName());
         
-        GuiaDespacho guia = guiaService.crearYGuardarTemporal(numero, transportista, file);
+        GuiaDespacho guia = guiaService.crearYGuardarTemporal(request.getNumero(), request.getTransportista(), file);
         return new ResponseEntity<>(guia, HttpStatus.CREATED);
     }
 
